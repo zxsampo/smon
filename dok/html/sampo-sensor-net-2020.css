@@ -1,0 +1,57 @@
+BODY,H1,H2,H3,H4,H5,H6,P,CENTER,TD,TH,UL,DL,DIV {
+       font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+BODY,TD {
+       font-size: 100%;
+}
+BODY {
+       background-color: white;
+       color: black;
+       margin-right: 20px;
+       margin-left: 20px;
+}
+H1 {
+       text-align: left;
+       font-size: 160%;
+}
+H2 { font-size: 120%; }
+H3 { font-size: 100%; }
+PRE {
+       border: 1px solid #CCCCCC;
+       background-color: #f5f5f5;
+       padding-top: 4px; padding-bottom: 4px; padding-left: 6px; padding-right: 6px; 
+       margin-top:  4px; margin-bottom:  4px; margin-left:  2px; margin-right:  8px;
+}
+a {
+       color: #1A41A8;
+}
+a:visited {
+       color: #2A3798;
+}
+HR { height: 1px;
+     border: none;
+     border-top: 1px solid black;
+}
+
+TH {
+       background-color: #C0C0CA;
+       text-align     : left;
+       vertical-align : bottom;
+       font-weight    : bold;
+       padding-top: 2px; padding-bottom: 2px; padding-left: 10px; padding-right: 10px;
+       margin-top:  2px; margin-bottom:  2px; margin-left:  0px;  margin-right:  0px;
+       border: 1px solid #CCCCCC;
+}
+TD {
+       background-color: #e8eef2;
+       padding-top: 2px; padding-bottom: 2px; padding-left: 10px; padding-right: 10px;
+       margin-top:  2px; margin-bottom:  2px; margin-left:  0px;  margin-right:  0px;
+       border: 1px solid #CCCCCC;
+}
+TD.eqn {
+       background-color: white;
+       vertical-align : middle;
+       padding-top: 2px; padding-bottom: 2px; padding-left: 10px; padding-right: 10px;
+       margin-top:  2px; margin-bottom:  2px; margin-left:  0px;  margin-right:  0px;
+       border: 0px solid white;
+}

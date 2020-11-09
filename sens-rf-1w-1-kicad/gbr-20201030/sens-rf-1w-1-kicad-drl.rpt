@@ -1,0 +1,26 @@
+Drill report for /home/sampo/ngbp/sens-rf-1w-1/sens-rf-1w-1-kicad/sens-rf-1w-1-kicad.kicad_pcb
+Created on Mon Nov  2 14:58:23 2020
+
+Copper Layer Stackup:
+    =============================================================
+    L1 :  F.Cu                      front
+    L2 :  B.Cu                      back
+
+
+Drill file 'sens-rf-1w-1-kicad-PTH.drl' contains
+    plated through holes:
+    =============================================================
+    T1  0.20mm  0.008"  (8 holes)
+    T2  0.25mm  0.010"  (50 holes)
+    T3  0.30mm  0.012"  (18 holes)
+    T4  0.40mm  0.016"  (197 holes)
+    T5  1.00mm  0.039"  (108 holes)
+
+    Total plated holes count 381
+
+
+Drill file 'sens-rf-1w-1-kicad-NPTH.drl' contains
+    unplated through holes:
+    =============================================================
+
+    Total unplated holes count 0

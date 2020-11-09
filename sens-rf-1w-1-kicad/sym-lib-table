@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name 2020-10-06_10-53-35)(type Legacy)(uri ${KIPRJMOD}/KiCAD/2020-10-06_10-53-35/2020-10-06_10-53-35.lib)(options "")(descr ""))
+  (lib (name 2020-10-06_11-52-57)(type Legacy)(uri ${KIPRJMOD}/KiCAD/2020-10-06_11-52-57/2020-10-06_11-52-57.lib)(options "")(descr ""))
+  (lib (name MyAntennas)(type Legacy)(uri ${KIPRJMOD}/PCB_Antenna_Lib/MyAntennas.lib)(options "")(descr ""))
+)

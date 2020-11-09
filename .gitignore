@@ -2,6 +2,7 @@
 *~
 tmp/
 bak/
+ds/
 
 # Prerequisites
 *.d
@@ -11,11 +12,19 @@ bak/
 *.ko
 *.obj
 *.elf
+*.rel
+*.asm
 
 # Linker output
 *.ilk
 *.map
 *.exp
+*.ihx
+*.sym
+*.rst
+*.mem
+*.lst
+*.lk
 
 # Precompiled Headers
 *.gch
@@ -40,6 +49,8 @@ bak/
 *.i*86
 *.x86_64
 *.hex
+.core
+core*
 
 # Debug files
 *.dSYM/
@@ -55,3 +66,32 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# kicad
+fp-info-cache
+*.zip
+order*/
+
+# pd2tex
+*.[ao]
+*.so
+*~
+.*~
+#*
+.#*
+*.def
+*.lib
+*.tmp
+*.obj
+*.aux
+*.log
+*.out
+*.toc
+*.tex
+*.dbx
+*.nonl
+*.seal
+*.eps
+*.wiki
+.pd/
+spell.words

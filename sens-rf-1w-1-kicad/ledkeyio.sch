@@ -1,0 +1,278 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 6 6
+Title "UX keys and leds, ambient light detector"
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5FC5C996
+P 3850 3400
+AR Path="/5FC5C996" Ref="#PWR?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C996" Ref="#PWR07001"  Part="1" 
+F 0 "#PWR07001" H 3850 3250 50  0001 C CNN
+F 1 "+3V3" H 3865 3573 50  0000 C CNN
+F 2 "" H 3850 3400 50  0001 C CNN
+F 3 "" H 3850 3400 50  0001 C CNN
+	1    3850 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R_R?
+U 1 1 5FC5C99C
+P 4600 3850
+AR Path="/5FC5C99C" Ref="R_R?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C99C" Ref="R_R1"  Part="1" 
+F 0 "R_R1" V 4393 3850 50  0000 C CNN
+F 1 "220" V 4484 3850 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4530 3850 50  0001 C CNN
+F 3 "~" H 4600 3850 50  0001 C CNN
+	1    4600 3850
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R_G?
+U 1 1 5FC5C9A2
+P 4600 3550
+AR Path="/5FC5C9A2" Ref="R_G?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9A2" Ref="R_G1"  Part="1" 
+F 0 "R_G1" V 4393 3550 50  0000 C CNN
+F 1 "220" V 4484 3550 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4530 3550 50  0001 C CNN
+F 3 "~" H 4600 3550 50  0001 C CNN
+	1    4600 3550
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED_Small_ALT LED_R?
+U 1 1 5FC5C9A8
+P 4150 3850
+AR Path="/5FC5C9A8" Ref="LED_R?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9A8" Ref="LED_R1"  Part="1" 
+F 0 "LED_R1" H 4150 4085 50  0000 C CNN
+F 1 "Red TX" H 4150 3994 50  0000 C CNN
+F 2 "LED_SMD:LED_0603_1608Metric" V 4150 3850 50  0001 C CNN
+F 3 "~" V 4150 3850 50  0001 C CNN
+	1    4150 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED_Small_ALT LED_G?
+U 1 1 5FC5C9AE
+P 4150 3550
+AR Path="/5FC5C9AE" Ref="LED_G?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9AE" Ref="LED_G1"  Part="1" 
+F 0 "LED_G1" H 4150 3785 50  0000 C CNN
+F 1 "Green RX" H 4150 3694 50  0000 C CNN
+F 2 "LED_SMD:LED_0603_1608Metric" V 4150 3550 50  0001 C CNN
+F 3 "~" V 4150 3550 50  0001 C CNN
+	1    4150 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED_Small_ALT LED_P?
+U 1 1 5FC5C9B4
+P 4150 4150
+AR Path="/5FC5C9B4" Ref="LED_P?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9B4" Ref="LED_P1"  Part="1" 
+F 0 "LED_P1" H 4150 4385 50  0000 C CNN
+F 1 "Orange Power" H 4150 4294 50  0000 C CNN
+F 2 "LED_SMD:LED_0603_1608Metric" V 4150 4150 50  0001 C CNN
+F 3 "~" V 4150 4150 50  0001 C CNN
+	1    4150 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R_P?
+U 1 1 5FC5C9BA
+P 4600 4150
+AR Path="/5FC5C9BA" Ref="R_P?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9BA" Ref="R_P1"  Part="1" 
+F 0 "R_P1" V 4393 4150 50  0000 C CNN
+F 1 "220" V 4484 4150 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4530 4150 50  0001 C CNN
+F 3 "~" H 4600 4150 50  0001 C CNN
+	1    4600 4150
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3850 4150 4050 4150
+Wire Wire Line
+	4050 3850 3850 3850
+Connection ~ 3850 3850
+Wire Wire Line
+	3850 3850 3850 4150
+Wire Wire Line
+	4050 3550 3850 3550
+Wire Wire Line
+	3850 3550 3850 3850
+Wire Wire Line
+	4250 3550 4450 3550
+Wire Wire Line
+	4250 3850 4450 3850
+Wire Wire Line
+	4250 4150 4450 4150
+$Comp
+L power:GNDD #PWR?
+U 1 1 5FC5C9CC
+P 4800 4200
+AR Path="/5FC5C9CC" Ref="#PWR?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9CC" Ref="#PWR07002"  Part="1" 
+F 0 "#PWR07002" H 4800 3950 50  0001 C CNN
+F 1 "GNDD" H 4804 4045 50  0000 C CNN
+F 2 "" H 4800 4200 50  0001 C CNN
+F 3 "" H 4800 4200 50  0001 C CNN
+	1    4800 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4750 4150 4800 4150
+Wire Wire Line
+	4800 4150 4800 4200
+$Comp
+L Switch:SW_Push SW?
+U 1 1 5FC5C9D4
+P 4150 5450
+AR Path="/5FC5C9D4" Ref="SW?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9D4" Ref="SW1"  Part="1" 
+F 0 "SW1" H 4150 5735 50  0000 C CNN
+F 1 "Next" H 4150 5644 50  0000 C CNN
+F 2 "Button_Switch_SMD:SW_Push_1P1T_NO_CK_KSC6xxJ" H 4150 5650 50  0001 C CNN
+F 3 "~" H 4150 5650 50  0001 C CNN
+	1    4150 5450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW?
+U 1 1 5FC5C9DA
+P 4150 5800
+AR Path="/5FC5C9DA" Ref="SW?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9DA" Ref="SW2"  Part="1" 
+F 0 "SW2" H 4150 6085 50  0000 C CNN
+F 1 "Select" H 4150 5994 50  0000 C CNN
+F 2 "Button_Switch_SMD:SW_Push_1P1T_NO_CK_KSC6xxJ" H 4150 6000 50  0001 C CNN
+F 3 "~" H 4150 6000 50  0001 C CNN
+	1    4150 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R RSW?
+U 1 1 5FC5C9E0
+P 4600 5450
+AR Path="/5FC5C9E0" Ref="RSW?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9E0" Ref="R_SW1"  Part="1" 
+F 0 "R_SW1" V 4393 5450 50  0000 C CNN
+F 1 "10k" V 4484 5450 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4530 5450 50  0001 C CNN
+F 3 "~" H 4600 5450 50  0001 C CNN
+	1    4600 5450
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R RSW?
+U 1 1 5FC5C9E6
+P 4600 5800
+AR Path="/5FC5C9E6" Ref="RSW?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9E6" Ref="R_SW2"  Part="1" 
+F 0 "R_SW2" V 4393 5800 50  0000 C CNN
+F 1 "56k" V 4484 5800 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4530 5800 50  0001 C CNN
+F 3 "~" H 4600 5800 50  0001 C CNN
+	1    4600 5800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4950 5050 3850 5050
+Wire Wire Line
+	3850 5050 3850 5450
+Wire Wire Line
+	3850 5800 3950 5800
+Wire Wire Line
+	3950 5450 3850 5450
+Connection ~ 3850 5450
+Wire Wire Line
+	3850 5450 3850 5800
+Wire Wire Line
+	4350 5450 4450 5450
+Wire Wire Line
+	4350 5800 4450 5800
+Wire Wire Line
+	4750 5800 5050 5800
+Wire Wire Line
+	5050 5800 5050 5450
+Connection ~ 5050 5450
+$Comp
+L Device:D_Photo_ALT DPH?
+U 1 1 5FC5C9F8
+P 4200 4650
+AR Path="/5FC5C9F8" Ref="DPH?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9F8" Ref="D_LD1"  Part="1" 
+F 0 "D_LD1" H 4150 4945 50  0000 C CNN
+F 1 "Light detector" H 4150 4854 50  0000 C CNN
+F 2 "Diode_SMD:D_1210_3225Metric" H 4150 4650 50  0001 C CNN
+F 3 "~" H 4150 4650 50  0001 C CNN
+	1    4200 4650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R RPH?
+U 1 1 5FC5C9FE
+P 4600 4650
+AR Path="/5FC5C9FE" Ref="RPH?"  Part="1" 
+AR Path="/5FC35F8E/5FC5C9FE" Ref="R_LD1"  Part="1" 
+F 0 "R_LD1" V 4393 4650 50  0000 C CNN
+F 1 "10k" V 4484 4650 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4530 4650 50  0001 C CNN
+F 3 "~" H 4600 4650 50  0001 C CNN
+	1    4600 4650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4750 3550 5150 3550
+Wire Wire Line
+	4750 3850 4950 3850
+Wire Wire Line
+	4950 3850 4950 5050
+Connection ~ 4950 3850
+Wire Wire Line
+	4950 3850 5950 3850
+Wire Wire Line
+	4300 4650 4450 4650
+Wire Wire Line
+	4750 4650 5150 4650
+Wire Wire Line
+	5150 4650 5150 3550
+Connection ~ 5150 3550
+Wire Wire Line
+	5150 3550 5950 3550
+Wire Wire Line
+	4000 4650 3850 4650
+Wire Wire Line
+	3850 4650 3850 4800
+Text HLabel 5950 3550 2    50   UnSpc ~ 0
+LED_G_A
+Text HLabel 5950 3850 2    50   UnSpc ~ 0
+LED_R_A
+Text HLabel 5950 4800 2    50   UnSpc ~ 0
+LIGHT_DET
+Text HLabel 5950 5450 2    50   UnSpc ~ 0
+KEYS
+Wire Wire Line
+	5050 5450 5950 5450
+Wire Wire Line
+	3850 4800 5950 4800
+Wire Wire Line
+	4750 5450 5050 5450
+Wire Wire Line
+	3850 3400 3850 3550
+Connection ~ 3850 3550
+$EndSCHEMATC

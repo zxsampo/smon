@@ -1,0 +1,55 @@
+### Module positions - created on Mon Nov  2 20:31:50 2020 ###
+### Printed by Pcbnew version kicad 5.1.7-a382d34a8~87~ubuntu18.04.1
+## Unit = mm, Angle = deg.
+## Side : All
+# Ref     Val             Package                                                 PosX       PosY       Rot  Side
+C1        100n            C_0603_1608Metric                                   267.9700  -148.0950   90.0000  top
+C2        100n            C_0603_1608Metric                                   144.4740  -147.8954   90.0000  top
+C3        100n            C_0603_1608Metric                                    29.5734  -146.7844  270.0000  top
+C221      27p             C_0603_1608Metric                                   215.1250  -140.9700    0.0000  top
+C231      27p             C_0603_1608Metric                                   215.4050  -148.5900  180.0000  top
+C401      1u              C_0603_1608Metric                                   228.5440  -131.5236  270.0000  top
+CP1       100u            C_1210_3225Metric                                   199.3900  -134.8250  270.0000  top
+C_hv1     4u7             C_1206_3216Metric                                   168.9100  -147.1150  270.0000  top
+Cbyp1     100n            C_0603_1608Metric                                   172.7200  -130.8100    0.0000  top
+Cref1     10n             C_0603_1608Metric                                   168.9100  -133.3500   90.0000  top
+Cstor1    4u7             C_0603_1608Metric                                   187.4650  -134.6200  180.0000  top
+DS1       Schottky        D_SMA                                               189.2300  -144.2975   90.0000  top
+DZ1       3v3             D_MiniMELF                                          195.5800  -135.1000  270.0000  top
+DZ2       3v3             D_MiniMELF                                          187.1700  -137.1600    0.0000  top
+D_LD1     Light_detector  D_1210_3225Metric                                   192.9865  -119.8110    0.0000  top
+F1        300mA_polyfuse  R_0603_1608Metric                                   193.0400  -134.6200  270.0000  top
+LED_G1    Green_RX        LED_0603_1608Metric                                 208.7625  -123.1900    0.0000  top
+LED_P1    Orange_Power    LED_0603_1608Metric                                 203.2035  -133.7028  270.0000  top
+LED_R1    Red_TX          LED_0603_1608Metric                                 238.7600  -123.1900    0.0000  top
+Lbst1     22uH            L_12x12mm_H6mm                                      183.0100  -127.0000    0.0000  top
+PwrHarv1  BQ25504         QFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm_ThermalVias   172.2800  -133.7900    0.0000  top
+R1        10k             R_0603_1608Metric                                   266.2943  -147.6918   90.0000  top
+R2        10k             R_0603_1608Metric                                   142.6858  -147.1163   90.0000  top
+R3        10k             R_0603_1608Metric                                    31.0948  -147.2853  270.0000  top
+R4        10k             R_0603_1608Metric                                   220.5350  -129.5400    0.0000  top
+R301      56k             R_0603_1608Metric                                   229.4250  -139.7000  180.0000  top
+R_G1      220             R_0603_1608Metric                                   208.7250  -119.3800    0.0000  top
+R_LD1     10k             R_0603_1608Metric                                   193.4850  -123.1900  180.0000  top
+R_P1      220             R_0603_1608Metric                                   203.2000  -136.7150   90.0000  top
+R_R1      220             R_0603_1608Metric                                   237.9350  -119.3800    0.0000  top
+R_SW1     10k             R_0603_1608Metric                                   223.9650  -120.6500    0.0000  top
+R_SW2     56k             R_0603_1608Metric                                   223.9650  -123.1900    0.0000  top
+Roc1      10M             R_0603_1608Metric                                   165.1000  -132.9050   90.0000  top
+Roc2      5M1             R_0603_1608Metric                                   165.1000  -136.7150   90.0000  top
+Roc3      4M7             R_0603_1608Metric                                   165.1000  -140.5250   90.0000  top
+Rok1      5M1             R_0603_1608Metric                                   178.6250  -140.9700    0.0000  top
+Rok2      5M1             R_0603_1608Metric                                   174.4350  -140.9700    0.0000  top
+Rok3      1M              R_0603_1608Metric                                   170.6250  -140.9700    0.0000  top
+Rov1      5M1             R_0603_1608Metric                                   177.8000  -143.5100    0.0000  top
+Rov2      2M2             R_0603_1608Metric                                   173.9900  -143.5100    0.0000  top
+Rov3      1M5             R_0603_1608Metric                                   170.1800  -143.5100    0.0000  top
+Ruv1      4M7             R_0603_1608Metric                                   174.8150  -138.4300    0.0000  top
+Ruv2      5M1             R_0603_1608Metric                                   170.6250  -138.4300    0.0000  top
+U1        AMS1117-3.3     SOT-223-3_TabPin2                                   198.1200  -142.2400    0.0000  top
+TH3       SHT21           DFN6                                                 26.6700  -147.3200  180.0000  top
+TH2       SHT21           DFN6                                                147.3200  -147.3200    0.0000  top
+TH1       SHT21           DFN6                                                271.7800  -147.3200    0.0000  top
+RF_MCU1   CC2530F256RHAR  VQFN40                                              223.5200  -135.8900  270.0000  top
+XTAL1     32MHz           Crystal_SMD_3225-4Pin_3.2x2.5mm                     215.4800  -144.9500   90.0000  top
+## End
