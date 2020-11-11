@@ -1592,7 +1592,7 @@ the different I/O devices.
    - In effect the DMA (1) is chained with DMA (2).
 3. UART RX
 4. UART TX
-5. ADC, FLASH write
+5. ADC, FLASH write, boot
 
 5.3.3 Radio
 ~~~~~~~~~~~
@@ -1850,6 +1850,7 @@ Here
     u8   nxt_flash; /* Flash page number of the image that would be selected in boot */
     u8   nxt_rel;   /* Release number of the image that would be selected in boot */
     u16  nxt_crc16; /* CRC16 of the image that would be selected in boot */
+    u8   ieee_addr[8];  /* Unique 64 bit IEEE address from the MCU addr 0x780c */
   }
 
 Reports time since boot, real time, reason for last boot (power on,
@@ -1883,6 +1884,16 @@ If image is not completely transmitted, ... *** retransmit mechanism, query comp
 
 <<newpage: >>
 
+9 Improvement Ideas
+===================
+
+* Provide header for LED_R (P1_0) and LED_G (P1_1) as they are valuable 20 mA driving
+  pins. 1-wire bus for example might benefit from them better than feeble 4 mA P1_6.
+* In schematic fix LED_G_A -> LED_G_K and LED_R_A -> LED_R_K
+* Flip the leds themselves around. Anode must be permanantly connected to 3v3 and
+  cathode may be drive to GND to make the LED light up. Current (R0 20201111) setup
+  is exactly the opposite and there will be no way of making the LEDs light up
+
 <<references:
 
 [CC2530DS] "CC2530F256 Datasheet (Rev. B)", Texas-Instruments-TI-CC2530F256RHAR_C9120.pdf, Texas Instruments, 2011.
@@ -1899,12 +1910,9 @@ If image is not completely transmitted, ... *** retransmit mechanism, query comp
 <<notapath: TCP/IP a.k.a xBSD/Unix n/a Perl/mod_perl PHP/mod_php Java/Tomcat sauna/vaja pinkki/magenta euro/m euro/m≤ euro/kpl>>
 <<EOF: >>
 
-9 Conclusion
-============
-
 DS1923 Hygrochron, 1-wire: 93.60 euro @ Mouser.com
 
-<<igonre:
+<<ignore:
   OILdataCCN
 
 where
@@ -1927,3 +1935,50 @@ where
   The N field does not appear in the radiopath.
 >>
 
+6279467110
+
+tulli.fi
+   8534	Printed circuits:	
+   85340011	- Consisting only of conductor elements and contacts:	
+ 8534009000	- With other passive elements
+
+
+XVIII
+OPTICAL, PHOTOGRAPHIC, CINEMATOGRAPHIC, MEASURING, CHECKING, PRECISION, MEDICAL OR SURGICAL INSTRUMENTS AND APPARATUS; CLOCKS AND WATCHES; MUSICAL INSTRUMENTS; PARTS AND ACCESSORIES THEREOF:
+90
+OPTICAL, PHOTOGRAPHIC, CINEMATOGRAPHIC, MEASURING, CHECKING, PRECISION, MEDICAL OR SURGICAL INSTRUMENTS AND APPARATUS; PARTS AND ACCESSORIES THEREOF:
+9025
+Hydrometers and similar floating instruments, thermometers, pyrometers, barometers, hygrometers and psychrometers, recording or not, and any combination of these instruments:
+902580
+- Other instruments:
+90258040
+- - Other:
+90258040
+- - - Electronic:
+9025804030
+- - - - Other:
+ 9025804050	- - - - - Electronic semiconductor sensor for measuring at least two of the following quantities:
+
+- Atmospheric pressure, temperature, (also for temperature compensation), humidity, or volatile organic compounds,
+
+Duty 3.2%
+ALV 24%
+
+
+* Kuljetusasiakirjan numero / Tracking number:6279467110
+* Valitse / Select: Uusi yritystullaus mik‰li teet yritystullausta / if you do company clearance
+* Kuljetuksen MRN-numero / MRN-number 20FI000001183438I1
+er‰nnumero/consignment number 1
+* Saapumisp‰iv‰ / Date of Arrival: 11.11.2020
+* Varaston tunnus / Warehouse: FI2717767-4R0001 tai/or FI2717767-400001
+* Aktiivisen kulkuv‰lineen tunnus & kansalaisuus / Active transport vehicle & nationality: WT3848 DE
+* Kokonaispaino / Weight: 0,3 kg
+* Pakkausten lukum‰‰r‰ / Units: 1 kll/pck
+
+
+20FIU00000248486R0
+Er‰p‰iv‰ 23.11.2020
+Maksettava summa 32,84eur  (ALV)
+Viite: 3640164015
+tili: FI15 6601 0001 0412 76   Paytrail Oyj
+viesti: Tulli / 820201111000107004

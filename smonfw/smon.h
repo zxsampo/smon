@@ -4,11 +4,26 @@
  *
  * 20201109 created --Sampo
  *
- * See users guide "CC253x/4x User's Guide (Rev. F)", swru191f.pdf, Texas Instruments, 2014.
+ * See [UG] "CC253x/4x User's Guide (Rev. F)", swru191f.pdf, Texas Instruments, 2014.
+ * See /apps/share/sdcc/include/mcs51/cc2530.h
  */
 
 #ifndef _smon_h
 #define _smon_h
+
+#include <cc2530.h>
+
+/* See [UG] Table 8-2 "DMA Configuration-Data Structure", p.99 */
+struct dma_conf {
+  u8  srcaddrH;   /* Seems these are in bigendian order */
+  u8  srcaddrL;
+  u8  destaddrH;
+  u8  destaddrL;
+  u8  vlen_lenH;  /* combined VLEN mode, typically 0, and 5 highest bits of transfer count */
+  u8  lenL;       /* transfer count, lowest bits. Max count is 8191. */
+  u8  mode_trig;  /* Mode and trigger */
+  u8  flags;      /* Increments, etc. */
+};
 
 /* Flash image header. The boot loader uses these images to locate
  * code to execute. Although image may be at many locations, they
@@ -21,14 +36,14 @@
  */
 
 struct smon_image {
-  u8  jmp;      /* 0x8000 op code for jump */
+  u8  jmp;      /* 0x8000 op code for jump, must be LJMP, i.e. 0x02 */
   u8  where_L;  /* 0x8001 address of jump L */
-  u8  where_H;  /* 0x8002 address of jump H */
-  u8  bootno;   /* 0x8003 image boot priority number */
-  u16 len;      /* 0x8004 length of the image (and header including crc16) */
-  u16 crc16;    /* 0x8006 checksum for validating the image */
+  u8  where_H;  /* 0x8002 address of jump H, must be >= 0x80 */
+  u8  bootno;   /* 0x8003 image boot priority number. Must be at least 1. */
+  u16 len;      /* 0x8004 length of the image (and header including crc16). Must be at least 16. */
+  u16 crc16;    /* 0x8006 checksum for validating the image, excluding earlier header fields */
   u8  image[0]; /* 0x8008 The image data. */
-};
+}; /* 8 bytes */
 
 /* Packet (message) format follows the IEEE-802.15.4 message.
  * In particular, there is a length field and fcf fields.
@@ -55,16 +70,27 @@ struct smon_packet {
 /* Stat response packet, excluding std headers */
 
 struct smon_stat_rp {
-    u8   whyboot;   /* Reason for most recent boot: P=Power-on, R=Reset line, W=Watchdog, S=sw */
-    i8   T_core;    /* CPU core temperature -128..127 degrees Celcius */
-    u32  us;        /* microseconds since boot */
-    i32  ux_ts;     /* Wall Clock Time in seconds since Unix epoch */
-    u8   cur_flash; /* Flash page number of the currently running image */
-    u8   cur_rel;   /* Release number of the currently running image */
-    u16  cur_crc16; /* CRC16 of the currently running image */
-    u8   nxt_flash; /* Flash page number of the image that would be selected in boot */
-    u8   nxt_rel;   /* Release number of the image that would be selected in boot */
-    u16  nxt_crc16; /* CRC16 of the image that would be selected in boot */
-};  /* 18 bytes */
+  u8   whyboot;   /* Reason for most recent boot: P=Power-on, R=Reset line, W=Watchdog, S=sw */
+  i8   T_core;    /* CPU core temperature -128..127 degrees Celcius */
+  u32  us;        /* microseconds since boot */
+  i32  ux_ts;     /* Wall Clock Time in seconds since Unix epoch */
+  u8   cur_flash; /* Flash page number of the currently running image */
+  u8   cur_rel;   /* Release number of the currently running image */
+  u16  cur_crc16; /* CRC16 of the currently running image */
+  u8   nxt_flash; /* Flash page number of the image that would be selected in boot */
+  u8   nxt_rel;   /* Release number of the image that would be selected in boot */
+  u16  nxt_crc16; /* CRC16 of the image that would be selected in boot */
+  u8   ieee_addr[8];  /* Unique 64 bit IEEE address from the MCU addr 0x780c, see [UG] p.28 */
+};  /* 26 bytes */
+
+#define MILLISEC_ITERS 4000 /* Number of iterations of an empty loop (assume 8 clocks per iteration) to make 1 millisecond at 32 MHz clock */
+
+/* Mapping of I/O port pins to bits: Symbolic to physical.
+ * The P1_0 and such are defined in cc2530.h as SBIT(P1_0, 0x90, 0),
+ * which uses the SBIT definition in compiler.h  */
+
+#define LED_R    P1_0   /* output to drive anode of LED_R to gnd (confusingly named LED_R_A) */
+#define LED_G    P1_1   /* output to drive anode of LED_G to gnd (confusingly named LED_G_A) */
+#define I2C_CLK  P1_2   /* bit banging I2C clock output */
 
 #endif /* _smon_h */
