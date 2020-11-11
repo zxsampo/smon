@@ -12,6 +12,18 @@
 #define _smon_h
 
 #include <cc2530.h>
+#include <stdint.h>
+
+typedef uint8_t  u8;
+typedef int8_t   s8;
+typedef uint16_t u16;
+typedef int16_t  s16;
+typedef uint32_t u32;
+typedef int32_t  s32;
+#ifdef __SDCC_LONGLONG
+typedef uint64_t u64;
+typedef int64_t  s64;
+#endif
 
 /* See [UG] Table 8-2 "DMA Configuration-Data Structure", p.99 */
 struct dma_conf {
@@ -89,8 +101,18 @@ struct smon_stat_rp {
  * The P1_0 and such are defined in cc2530.h as SBIT(P1_0, 0x90, 0),
  * which uses the SBIT definition in compiler.h  */
 
+#define RX0      P0_2   /* UART0 RX input */
+#define TX0      P0_3   /* UART0 TX output */
+#define SWRD     P0_6   /* A6 analog input for reading switches */
+#define LID      P0_7   /* A7 analog input for reading light intensity detector */
 #define LED_R    P1_0   /* output to drive anode of LED_R to gnd (confusingly named LED_R_A) */
 #define LED_G    P1_1   /* output to drive anode of LED_G to gnd (confusingly named LED_G_A) */
-#define I2C_CLK  P1_2   /* bit banging I2C clock output */
+#define I2C_SCL  P1_2   /* bit banging I2C clock output */
+#define W1_DATA  P1_6   /* bit banging 1-wire data input / output */
+#define I2C_SDA1 P2_0   /* bit banging I2C data i/o for TH1 */
+#define DBG_DAT  P2_1   /* hardware debugger data i/o */
+#define DBG_CLK  P2_2   /* hardware debugger clock */
+#define I2C_SDA2 P2_3   /* bit banging I2C data i/o for TH2 */
+#define I2C_SDA3 P2_4   /* bit banging I2C data i/o for TH3 */
 
 #endif /* _smon_h */

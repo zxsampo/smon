@@ -98,8 +98,8 @@ u16 crc16(u16 len, __xdata u8* data)
 void boot()
 {
   __xdata struct smon_image* img = (__xdata struct smon_image*)0x8000;
-  u8 cand = 0;
-  u8 bootno = 0;
+  u8 cand;
+  u8 bootno;
   
   /* Turn on red led, off green led */
   
@@ -108,10 +108,11 @@ void boot()
   LED_R = 0;     /* Drive cathode of the led to 0v. The anode is at 3v3 so the led will light up. */
   LED_G = 1;     /* Drive cathode of the led to 3v3. The anode is at 3v3 so the led will be off. */
   
-  // FMAP controls mapping of flash banks to code space in 0x8000..0xffff
-  // MEMCTR.XBANK controls mapping flash banks to XDATA space 0x8000..0xffff
+  /* Iterate over all banks to find highest priority boot image.
+   * FMAP controls mapping of flash banks to code space in 0x8000..0xffff
+   * MEMCTR.XBANK controls mapping flash banks to XDATA space 0x8000..0xffff */
 
-  for (MEMCTR = 1; MEMCTR < 8; MEMCTR++) {
+  for (bootno = 0, MEMCTR = 1; MEMCTR < 8; MEMCTR++) {
     if (img->jmp != 0x02)       /* must be a long jump instruction; acts also as "signature" */
       continue;
     if (img->where_H < 0x80)    /* jump must be to 0x8000..0xffff address block */
@@ -125,7 +126,7 @@ void boot()
     if (img->crc16 != crc16(img->len, img->image))
       continue;
   update_candidate:
-    bootno = img->bootno;
+    bootno = img->bootno;       /* Highest boot number so far becomes the candidate. */
     cand = MEMCTR;
   }
   
