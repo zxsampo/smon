@@ -1599,31 +1599,44 @@ Analyzing source...
       points to 0xf000 which might be the input of burst write
    - See [SWRA124]
 
-SDCC  - Small Device C Compiler
+5.2.1 Building SDCC  - Small Device C Compiler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 * http://sdcc.sourceforge.net/
 * Open source and actively maintained, cc2530 support at least since 2012
 * sudo apt install sdcc -- gives 3.5.0 from 2018. Latest as of 2020 is 4.0.0
 * /t/sdcc-src-4.0.0.tar.bz2
   - sdcc-4.0.0/device/include/mcs51/cc2530.h
 
-sudo apt install flex bison  # versions in /apps/bin seem too old
-# bison: cannot open file `/apps/share/bison/m4sugar/m4sugar.m4': No such file or directory
+  sudo apt install flex bison  # versions in /apps/bin seem too old
+  # bison: cannot open file `/apps/share/bison/m4sugar/m4sugar.m4': No such file or directory
 
-cd sdcc-4.0.0
-./configure --prefix=/apps/
-# old gputils would need upgrading
-make
-# sdcc-4.0.0/device/lib/pic14/missing: line 81: aclocal-1.16: command not found
-autoreconf -f -i  # did not work, still gives error as follows
-#configure.ac:33: error: Please use exactly Autoconf 2.64 instead of 2.69.
-cd device/lib/pic14/
-touch aclocal.m4 configure
-touch Makefile.am Makefile.in   # if they exist
-cd -
-make  # touching the troublesome files did work
+  cd sdcc-4.0.0
+  ./configure --prefix=/apps/
+  # old gputils would need upgrading
+  make
+  # sdcc-4.0.0/device/lib/pic14/missing: line 81: aclocal-1.16: command not found
+  autoreconf -f -i  # did not work, still gives error as follows
+  #configure.ac:33: error: Please use exactly Autoconf 2.64 instead of 2.69.
+  cd device/lib/pic14/
+  touch aclocal.m4 configure
+  touch Makefile.am Makefile.in   # if they exist
+  cd -
+  make  # touching the troublesome files did work
 
 https://sourceforge.net/projects/cmon51/
 /t/cmon51-1.2.zip
+
+5.2.2 SDCC mcs51 CC2530 startup code, crt, and linker script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* sdcc-4.0.0/device/include/mcs51/cc2530.h  -- Compile time macros
+  - /apps/share/sdcc/include/mcs51/cc2530.h  -- Install location
+* sdcc-4.0.0/device/lib/mcs51/  -- All the manner of C run time fragments
+  - crtstart.asm
+  - /apps/share/sdcc/lib/small/mcs15.lib  -- Install location
+
+
 
 5.3 Software Architecture
 -------------------------

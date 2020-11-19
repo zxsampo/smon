@@ -14,25 +14,6 @@
 
 #include "smon.h"
 
-void delay_ms2(u16 delay)
-{
-  u16 i;
-  for (;delay; --delay) {
-    for (i=MILLISEC_ITERS; i, --i) ;
-  }
-}
-
-void blink_G(u8 iter, u16 delay)
-{
-  for (; iter; --iter) {
-    LED_G = 0;
-    delay_ms2(delay);
-    LED_G = 1;
-    delay_ms2(delay);
-  }
-  delay_ms2(delay+delay);  /* Final off stage shall last longer, so it is possible to count. */
-}
-
 void setup()
 {
   P1SEL = 0x00;

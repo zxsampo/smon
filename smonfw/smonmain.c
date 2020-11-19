@@ -17,7 +17,7 @@ void delay_ms2(u16 delay)
 {
   u16 i;
   for (;delay; --delay) {
-    for (i=MILLISEC_ITERS; i, --i) ;
+    for (i=MILLISEC_ITERS; i; --i) ;
   }
 }
 
@@ -38,15 +38,14 @@ void main()
   while (1) {
     blink_G(2,500);
   }
-  
+#if 0
   /* Turn on red led, off green led */
   
   P1SEL = 0x00;  /* This is reset value, but in case of softreset... select GPIO (not peripheral) */
   P1DIR = 0x03;  /* Make P1_0 (LED_R) and P1_1 (LED_G) outputs */
   LED_R = 0;     /* Drive cathode of the led to 0v. The anode is at 3v3 so the led will light up. */
   LED_G = 1;     /* Drive cathode of the led to 3v3. The anode is at 3v3 so the led will be off. */
-
-  /* Nothing found, busy loop forever */
+#endif
 }
 
 /* EOF - smonfw/smonmain.c */

@@ -26,6 +26,7 @@ PROJ_NAME=smon
 SMON_VERSION='"0.1"'
 
 SMON_OBJS= boot.o smonmain.o setup.o
+SMON_RELS=$(SMON_OBJS:.o=.rel)
 
 ARC?=ar -crs
 ARX?=ar -x
@@ -292,17 +293,18 @@ PATH:=$(PATH):$(ARMBIN)
 VPATH = .
 ARC=sdar -crs
 CC=sdcc
-LD=sdcc
-AS=sdas8051
-LDSCRIPT_INC=ldscripts
-LINKERFILE=cc2530.ld
+#LD=sdcc
+#AS=sdas8051
+#LDSCRIPT_INC=ldscripts
+#LINKERFILE=cc2530.ld
 
 #CRT0=startup_$(PLATFORM)xx.o
-STARTUP=startup_cc2530.o
+STARTUP=
 SYSTEM_INIT=
 
-CFLAGS ?= --opt-code-size --debug --std-sdcc99 -Wall
-#CFLAGS ?= --debug --std-sdcc99 -Wall -Wno-main -I.
+# N.B. Unlike in gcc, sdcc -Wall passes ll to assembler, so do not specify it
+CFLAGS ?= --opt-code-size --debug --std-sdcc99
+#CFLAGS ?= --debug --std-sdcc99 -Wno-main -I.
 CFLAGS += -DSMON_VERSION=$(SMON_VERSION)
 CFLAGS += -mmcs51 --model-small -DCC2530
 CFLAGS += --iram-size 256 --xram-size 8192 --code-size 32767 --stack-size 128
@@ -336,7 +338,7 @@ else
 #LDFLAGS= -Wl,-O -Wl,2 --gc-sections
 endif
 
-all:	smon.hex
+all:	smon.ihx
 
 OBJS= $(SMON_OBJS) $(STARTUP) $(SYSTEM_INIT)
 #OBJS+=	stm32l1xx_i2c.o
@@ -347,6 +349,12 @@ OBJS= $(SMON_OBJS) $(STARTUP) $(SYSTEM_INIT)
 COVIMP_OBJS= covimp.o
 
 system_stm32l1xx.o:	system_stm32l1xx.c
+
+smon.ihx: $(SMON_RELS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+%.rel: %.c
+	$(CC) $(CFLAGS) -o $@ -c $^
 
 smon.elf:	$(CRT0) $(OBJS)
 	$(CC) $(CFLAGS) -L $(LDSCRIPT_INC) -T $(LINKERFILE) -o $@ $^
@@ -385,7 +393,7 @@ smon.elf:	$(CRT0) $(OBJS)
 
 dep: deps
 
-deps: $(SMCU_OBJS:.o=.c) smcu.h uart.h
+deps: $(SMCU_OBJS:.o=.c) smon.h uart.h
 	$(CC) $(CFLAGS) -DSTM32L1XX_MD -MM $^ >deps.dep
 
 # N.B. If deps target and the actual deps.dep file have same name,
