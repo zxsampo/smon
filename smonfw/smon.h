@@ -83,9 +83,9 @@ struct smon_packet {
 
 struct smon_stat_rp {
   u8   whyboot;   /* Reason for most recent boot: P=Power-on, R=Reset line, W=Watchdog, S=sw */
-  i8   T_core;    /* CPU core temperature -128..127 degrees Celcius */
+  s8   T_core;    /* CPU core temperature -128..127 degrees Celcius */
   u32  us;        /* microseconds since boot */
-  i32  ux_ts;     /* Wall Clock Time in seconds since Unix epoch */
+  u32  ux_ts;     /* Wall Clock Time in seconds since Unix epoch */
   u8   cur_flash; /* Flash page number of the currently running image */
   u8   cur_rel;   /* Release number of the currently running image */
   u16  cur_crc16; /* CRC16 of the currently running image */

@@ -22,7 +22,7 @@ void delay_ms(u16 delay)
 {
   u16 i;
   for (;delay; --delay) {
-    for (i=MILLISEC_ITERS; i, --i) ;
+    for (i=MILLISEC_ITERS; i; --i) ;  // *** danger of being optimized away
   }
 }
 
@@ -112,7 +112,7 @@ void boot()
    * FMAP controls mapping of flash banks to code space in 0x8000..0xffff
    * MEMCTR.XBANK controls mapping flash banks to XDATA space 0x8000..0xffff */
 
-  for (bootno = 0, MEMCTR = 1; MEMCTR < 8; MEMCTR++) {
+  for (bootno = cand = 0, MEMCTR = 1; MEMCTR < 8; MEMCTR++) {
     if (img->jmp != 0x02)       /* must be a long jump instruction; acts also as "signature" */
       continue;
     if (img->where_H < 0x80)    /* jump must be to 0x8000..0xffff address block */
@@ -133,7 +133,7 @@ void boot()
   LED_R = 1;
   if (bootno) {
     FMAP = cand;
-    __asm__ { "ljmp 0x8000" }  /* Start executing the image, never come back */
+    __asm__ ( "ljmp 0x8000" );  /* Start executing the image, never come back */
   }
   /* Nothing found, busy loop forever */
   while (1)

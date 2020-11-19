@@ -301,10 +301,11 @@ LINKERFILE=cc2530.ld
 STARTUP=startup_cc2530.o
 SYSTEM_INIT=
 
-CFLAGS ?= --opt-code-size --debug --std-sdcc99 -Wall -Wextra -Wno-unused-parameter
-#CFLAGS ?= --debug --std-sdcc99 -Wall -Wextra -Wno-main -Wno-unused-parameter -I.
+CFLAGS ?= --opt-code-size --debug --std-sdcc99 -Wall
+#CFLAGS ?= --debug --std-sdcc99 -Wall -Wno-main -I.
 CFLAGS += -DSMON_VERSION=$(SMON_VERSION)
-CFLAGS += -mmcs51 -DCC2530
+CFLAGS += -mmcs51 --model-small -DCC2530
+CFLAGS += --iram-size 256 --xram-size 8192 --code-size 32767 --stack-size 128
 #CFLAGS += -Icc2530 -I$(PLATFORM)
 #CFLAGS += -DSTATIC= -Wno-implicit-function-declaration
 #CFLAGS += -DSTATIC=extern
@@ -329,7 +330,7 @@ CFLAGS+= -pg -ftest-coverage -fprofile-arcs
 LDFLAGS+= -pg -ftest-coverage -fprofile-arcs
 else
 # -ffunction-sections is incompatible with profiling
-CFLAGS+= -ffunction-sections -fdata-sections
+#CFLAGS+= -ffunction-sections -fdata-sections
 # Following ld flags as well as C flag -ffunction-sections are a quest to
 # eliminate unused functions from final link.
 #LDFLAGS= -Wl,-O -Wl,2 --gc-sections
