@@ -848,33 +848,19 @@ Gerber file - order-jlcpcb-20201103-sens-rf-1w-1-gerber_Y2
 Build Time: 2-3 days
 
 PCB Qty:5
-
 Layers:
-
 Dimension:mm*mm
-
 Different Design:
-
 Delivery Fomat:Single PCB
-
 PCB Thickness:
-
 Impedance:
-
 PCB Color:
-
 Surface Finish:
-
 Copper Weight: oz
-
 Gold Fingers:Yes 45°
-
 Flying Probe Test:
-
 Castellated Holes:
-
-Remove Order Number:
-$6.80
+Remove Order Number: $6.80
 SMT Assembly:SMT020110395742
 Gerber file - order-jlcpcb-20201103-sens-rf-1w-1-gerber_Y2
 Build Time:3 days
@@ -886,6 +872,22 @@ USD 156.21 incl. shipping
 
 2020-11-04W202011040056560
 
+Arrived 20201111 to customs
+Arrived 20201112 to office
+
+3.5.1 Arrival Inspection
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A. Visual inspection OK (some dodginess in board 1 Pwr_harv1 pins)
+B. Measure between pwr_3v3 and GND
+C. Measure between Vin_raw (JPH2.1 or SC1 conn. pins) and GND
+D. Measure between +5V (JPH2.2) and GND
+
+Defects:
+
+* Zeners are wrong way around on PCB (opposite of schematic) Kathode (-) (terminal 1) should be
+  towards 3v3 and anode (+) (terminal 2) on GND.
+
 3.8 Work Estimates
 ------------------
 
@@ -895,6 +897,47 @@ Estimate for sensor network board with 3-4 active components (easily a 2 week pr
 * PCB layout 3-4d
 * BOM and order preparation 1d
 * Shipping and customs: 2d, 1 week of real time)
+* Ability to talk through programmer (possibly programming and testing the programmer) 1 week
+* Firmware 2 weeks
+
+*Embedded Maturity Steps and Milestones*
+
+1.  +Schematic+ passes sanity checks
+2.  +PCB+ passes Design Rules Check (DRC)
+3.  PCB passes PCB manufacturer checks
+4.  Manufacturing done and delivered on prototype
+5.  No obvious electrical error like short circuit or missing connections
+6.  +Power+ on test does not produce smoke or other abnormalities (be sure to measure milliamps)
+7.  Clock oscillates (check with oscilloscope)
+8.  +Programmer device+ is recognized by host (laptop)
+9.  Programmer device is able to talk to DUT<<footnote: Device Under Test>>
+    at least enough to get status
+    - Assumed to use 2-wire debug interface (NRST, DC, DD)
+    - Serial to some sort of bootloader is ok, too
+10. Programmer device is able to blink a led or otherwise manipulate GPIO (direct
+    manipulation without flashing anything or even running any code is ok)
+11. +Development environment+ is able to build a binary for the target
+12. Programmer device is able to +flash+ something
+13. +Blink+ led flashed and working at least on internal 1 MHz RC oscillator
+14. Realistic +clock+ working (e.g. blink)
+    - May also include configuring wait states, etc.
+15. +Serial port+ works
+16. Debug prints using +printf+ over serial work
+17. +I2C+ to sensors works
+18. +Radio TX+ works
+    - use VNA and software defined radio like URH to check that some signal is emitted
+19. +Radio RX+ works
+20. Reasonably well flashed out monitor program (smon) works
+    - Accepts commands and produces responses
+    - Routes traffic between serial port and radio
+21. Radio encryption (AES-CTR or some more sophisticated) works
+22. +1-wire+ bus RX and TX work, smon routes between serial, 1-w, and radio
+23. Data logging to own flash works
+24. Flashing pages (2 KB per page) received from serial to own flash works
+25. Flashing pages received from radio or 1-w to own flash works
+26. Multibank flashing works
+27. Clone own flash to serial, radio, or 1-w works
+28. Cloning own flash to programmer device interface works
 
 3.9 Competition
 ---------------
@@ -1125,12 +1168,17 @@ carefully what should be flashed where.
 
 * Bank 0: boot loader, library, trampoline for bank switching
   - boot loader that looks at other banks to see which one should execute. It may
-    check an integrity checksum and will choose the bank with highest ordinal number.
+    check an integrity checksum and will choose the bank with highest boot number.
   - library has common library functions like min_sprintf() that rarely change
   - when application does not fit in single 32 KB (or just 24 KB if SRAM is mapped),
     a trampoline to jump from one bank to another may need to be implemented. Ideally
     this should integrate with SDCC mechanism for this case
   - interrupt handlers need to be in bank 0 lest things get too hairy
+
+* Bank 1: the usual application code (between banks 1 and 2, one with higher boot number is run)
+* Bank 2: alternate application code
+* Banks 3-6: not decided yet
+* Bank 7: data logging
 
 sdcc --codeseg option and banks, --model-small (default),
 --model-medium, etc., see [SDCCMAN] sec. "Memory Models".
@@ -1313,13 +1361,138 @@ FXYKI38I4PHHHKP.ino
 0xac 0x53 prog enable
 0xac 0x9f erase chip
 
+Bought Arduino MKR1000 (with WiFi) without realizing that it is an
+SAM-D21 (ARM Cortex-0) based board rather than AVR based. Thus the normal
+AVR tool chain will not work.
 
-5.1.4 BMP Hardware Example
+ARM compiler from Ubuntu package probably works.
+
+For flashing SWD port (BMP) might work.
+
+Software to use: bossac
+* Connects over USB "native port" serial
+* May connect to debug serial port, assuming SAM-BA bootloader that responds to this port
+
+http://www.shumatech.com/web/products/bossa
+
+https://sourceforge.net/projects/b-o-s-s-a/
+
+  tar xvf /t/bossa-i686-1.2.1.tgz  # binaries, does not open as directory
+  mv bossa* /apps/bin/
+
+https://github.com/shumatech/BOSSA  -- 1.9.1 (20201113)
+
+  git clone https://github.com/shumatech/BOSSA.git
+  cd BOSSA
+  make bossac   # works. Full build needs wx graphics libraries.
+
+  bin/bossac -i -d
+  Set binary mode
+  Send auto-baud
+  Set binary mode
+  No device found on /dev/ttyACM0
+
+The Arduino SAMD backend also includes bossac
+
+  /home/sampo/.arduino15/packages/arduino/tools/bossac/1.7.0-arduino3/bossac
+
+Solution: https://forum.arduino.cc/index.php?topic=707557.0
+
+* MKR1000 USB port is "native" (not programming)
+* Press reset button twice within 500 ms to get to boot loader, as indicated by
+  pulsating rather than blinking led. Pulsation means bootloader
+  is running. Now bossac -i works
+* It seems double reset recognition and the 1200 baud reset hack
+  require some arduino specific firmware to run. If you just flash
+  over your own, you will loose those functions and effectively "brick"
+  the board (you can recover using two wire debug port, but that is a
+  whole new ball game).
+  
+  - Study what magic Arduino IDE includes in the firmware and
+    be sure to include it in your firmware, or your own magic
+    that achives the same purpose. Check the linker script
+    
+      ~/.arduino15/packages/arduino/hardware/samd/1.8.9/variants/mkr1000/linker_scripts/gcc/flash_with_bootloader.ld
+
+  - .ino "sketch" builds happen in /tmp/arduino_build_NN/ directory. Look
+    for, e.g., /tmp/arduino_build_160024/Blink.ino.with_bootloader.hex that
+    contains the user code and the additional firmware bits and pieces
+
+  - /home/sampo/.arduino15/packages/arduino/hardware/samd/1.8.9/cores/arduino/startup.c
+  - ~/.arduino15/packages/arduino/hardware/samd/1.8.9/bootloaders/zero/board_definitions_arduino_mkr1000.h
+    - BOOT_DOUBLE_TAP_ADDRESS, BOOT_DOUBLE_TAP_DATA, BOOT_LOAD_PIN, BOARD_LED_PORT, BOARD_LED_PIN
+  - ~/.arduino15/packages/arduino/hardware/samd/1.8.9/bootloaders/zero/main.c
+
+https://playground.arduino.cc/Bootloader/DueBootloaderExplained/
+- 1200 baud reset and other hacks for SAM3X based new Arduino Due
+
+ds/SAM-D21-Family-Datasheet-DS40001882B.pdf
+ds/Atmel-42366-SAM-BA-Bootloader-for-SAM-D21_ApplicationNote_AT07175.pdf
+- SAM-D21 does not have ROM based SAM-BA, instead it occupies flash 0x0000-0x1fff, which
+  should not be overwritten
+- Pulling PA15 low during reset forces entry to SAM-BA, but according to
+  MKR1000 schema PA15 is not routed or made available.
+
+Device Service Unit and the SWD debugger, using chip erase to clear NVMCTRL
+
+OpenOCD - Open On-Chip Debugger
+
+http://openocd.org/
+
+- Connects to USB programming port
+
+https://github.com/arduino/Arduino/releases/tag/1.8.13  (202006)
+
+  tar xvf /t/arduino-1.8.13.tar.xz
+  tar xvf /t/arduino-1.8.13-linux64.tar.xz
+  cd arduino-1.8.13/
+  sudo ./install.sh   # seems to go to /usr/local/
+  /usr/local/bin/arduino &
+
+Tools->Board Manager
+- Install: SAMD Boards (32-bits ARM Cortex-M0+) 1.8.9 (takes several minutes)
+
+5.1.4 Porting CCLib_proxy.ino and CCDebugger.cpp to SAMD architecture
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Due to magicalness of some Arduino features implemented in hidden
+startup code, we decided to work within Arduino IDE build system
+(hoping this system inserts the necessary magic). Still, some porting
+is needed: CCLib_proxy.ino was written with Arduino Leonardo
+architecture and pinout, which we need to translate to MKR1000.
+
+Pin numbers (as interpretted by pinMode() and digitalWrite()) are external
+physical pin numbers. How are they mapped to GPIO ports and bits?
+
+See documentation ds/Pinout-MKR1000_latest.png, https://store.arduino.cc/arduino-mkr1000-wifi
+
+Actual definition of functions:
+/home/sampo/arduino-1.8.13/hardware/arduino/avr/cores/arduino/wiring_digital.c
+calls digitalPinToBitMask(pin_no) and digitalPinToPort(pin_no) which are
+board dependent macros, such as:
+
+  ~/.arduino15/packages/arduino/hardware/samd/1.8.9/variants/mkr1000/variant.h:
+    #define digitalPinToPort(P)      (&(PORT->Group[g_APinDescription[P].ulPort]))
+  ~/.arduino15/packages/arduino/hardware/samd/1.8.9/variants/mkr1000/variant.cpp
+    g_APinDescription table which is most informative
+
+Using CC_RST=5 (D5, PB11), CC_DC=4 (D4, PB10), CC_DD_I=3 (D3, PA11)
+and CC_DD_O=2 (D2, PA10) seems reasonable and will probably
+work. Since MKR1000 is already 3v3 logic board, the voltage dividers
+alluded in the comment in CCLib_proxy.ino are not needed.
+
+We wonder if it would be possible to use just one bidirectional pin
+for the CC_DD functionality. It is possible and works.
+
+  cd CCLib/Python
+  ./cc_info.py -p /dev/ttyACM0  # the Arduino board must already have been flashed
+
+5.1.5 BMP Hardware Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *** TBD
 
-5.1.5 GDB interface
+5.1.6 GDB interface
 ~~~~~~~~~~~~~~~~~~~
 
 *** TBD
@@ -1346,7 +1519,36 @@ CCLib - Arduino implementation of CC debug protocol
 * git clone https://github.com/wavesoft/CCLib.git
 
 cd CCLib/Python
-./cc_info.py -p /dev/ttyS0
+./cc_info.py -p /dev/ttyACM0  # the Arduino board must have been already flashed
+INFO: Found a CC2530 chip on /dev/ttyACM0
+
+Chip information:
+      Chip ID : 0xa524
+   Flash size : 256 Kb
+    Page size : 2 Kb
+    SRAM size : 8 Kb
+          USB : No
+
+Device information:
+ IEEE Address : 00124b000ef6
+           PC : 0000
+
+Debug status:
+ [ ] CHIP_ERASE_BUSY
+ [ ] PCON_IDLE
+ [X] CPU_HALTED
+ [ ] PM_ACTIVE
+ [ ] HALT_STATUS
+ [ ] DEBUG_LOCKED
+ [X] OSCILLATOR_STABLE
+ [ ] STACK_OVERFLOW
+
+Debug config:
+ [ ] SOFT_POWER_MODE
+ [ ] TIMERS_OFF
+ [X] DMA_PAUSE
+ [X] TIMER_SUSPEND
+
 ./cc_read_flash.py -p /dev/ttyS0 --out=output.hex
 ./cc_write_flash.py -p /dev/ttyS0 --in=output.hex --erase
 ./cc_resume.py -p /dev/ttyS0  # Exit debug mode and resume normal execution
@@ -1594,7 +1796,24 @@ the different I/O devices.
 4. UART TX
 5. ADC, FLASH write, boot
 
-5.3.3 Radio
+5.3.3 Memory Map
+~~~~~~~~~~~~~~~~
+
+The 8KB RAM is not very much to work with. Lets consider some allocation
+
+  Start  End     Size  Description
+  0x0000 0x07ff  2048  Page buffer where one page of content to be flashed is collected.
+                       This page can in some scenarios be mapped as executable.
+  0x0800 0x087f  128   RF TX plaintext buffer (src for DMA via AES to TX HW buf)
+  0x0880 0x08ff  128   RF RX plaintext buffer (dest for DMA via AES from RX HW buf)
+  0x0900 0x097f  128   1-wire/UART1 TX plaintext buffer
+  0x0980 0x09ff  128   1-wire/UART1 RX plaintext buffer
+  0x0a00 0x0a7f  128   UART0 TX plaintext buffer (src for DMA)
+  0x0a80 0x0aff  128   UART0 RX plaintext buffer (dest for DMA)
+  0x0b00 0x1eff  5120  Free for compiler to allocate as needed
+  0x1f00 0x1fff  256   8051 Data space (regs, direct, indirect, and stack)
+
+5.3.4 Radio
 ~~~~~~~~~~~
 
 RX and TX FIFOs are 128 bytes (8 x AES128 blocks). IEEE 802.15.4 frame
@@ -1663,7 +1882,7 @@ https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation
 * AES128-CTR: Counter mode: Nonce-key pair must never be used twice due to XOR of streams
 * AES128-CCM: https://en.wikipedia.org/wiki/CCM_mode, defived from CTR mode, see caveat
 
-5.3.4 1-wire
+5.3.5 1-wire
 ~~~~~~~~~~~~
 
 *** TBW
@@ -1889,10 +2108,14 @@ If image is not completely transmitted, ... *** retransmit mechanism, query comp
 
 * Provide header for LED_R (P1_0) and LED_G (P1_1) as they are valuable 20 mA driving
   pins. 1-wire bus for example might benefit from them better than feeble 4 mA P1_6.
+
 * In schematic fix LED_G_A -> LED_G_K and LED_R_A -> LED_R_K
+
 * Flip the leds themselves around. Anode must be permanantly connected to 3v3 and
-  cathode may be drive to GND to make the LED light up. Current (R0 20201111) setup
+  cathode may be driven to GND to make the LED light up. Current (R0.0 20201111) setup
   is exactly the opposite and there will be no way of making the LEDs light up
+
+* 3v3 of J5 (GPIO) and J4 (Debug) should go thru fuse, i.e. they should connect to pwr_3v3
 
 <<references:
 

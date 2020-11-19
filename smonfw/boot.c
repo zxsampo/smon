@@ -1,5 +1,5 @@
 /* smonfw/boot.c  --  smon boot: locate highest bootno image and jump there
- * Copyright (c) 2020 Sampo Kellomaki (sampo-smon20@zxid.org) All rights reserved.
+ * Copyright (c) 2020 Sampo Kellomaki (sampo-smon20@zxid.org). All rights reserved.
  * NO WARRANTY. See file LICENSE for licensing terms.
  *
  * 20201109 created --Sampo

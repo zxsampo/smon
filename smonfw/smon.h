@@ -1,5 +1,5 @@
 /* smonfw/smon.h  --  smon data structures
- * Copyright (c) 2020 Sampo Kellomaki (sampo-smon20@zxid.org) All rights reserved.
+ * Copyright (c) 2020 Sampo Kellomaki (sampo-smon20@zxid.org). All rights reserved.
  * NO WARRANTY. See file LICENSE for licensing terms.
  *
  * 20201109 created --Sampo
@@ -114,5 +114,7 @@ struct smon_stat_rp {
 #define DBG_CLK  P2_2   /* hardware debugger clock */
 #define I2C_SDA2 P2_3   /* bit banging I2C data i/o for TH2 */
 #define I2C_SDA3 P2_4   /* bit banging I2C data i/o for TH3 */
+
+void setup();
 
 #endif /* _smon_h */
